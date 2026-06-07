@@ -1,5 +1,5 @@
 # dataset.py
-# ── Text cleaning  +  data loading / tokenization / GloVe matrix ─────────────
+# Text cleaning  +  data loading / tokenization / GloVe matrix 
 
 import re
 import pickle
@@ -19,7 +19,7 @@ from config import (
     TEST_SIZE, RANDOM_STATE
 )
 
-# ── NLTK downloads ────────────────────────────────────────────────────────────
+# NLTK downloads
 for pkg in ['stopwords', 'wordnet', 'averaged_perceptron_tagger',
             'averaged_perceptron_tagger_eng', 'punkt', 'omw-1.4']:
     nltk.download(pkg, quiet=True)
@@ -27,17 +27,17 @@ for pkg in ['stopwords', 'wordnet', 'averaged_perceptron_tagger',
 tqdm.pandas()
 lemmatizer = WordNetLemmatizer()
 
-# ── Custom stopword set ───────────────────────────────────────────────────────
+# Custom stopword set 
 STOPWORDS = set(stopwords.words('english'))
 
-# keep negation words — they flip sentiment
+# keep negation words 
 STOPWORDS -= {
     "not", "no", "nor", "never", "neither",
     "nothing", "nowhere", "hardly", "barely", "scarcely",
     "doesn't", "isn't", "wasn't", "shouldn't", "wouldn't",
     "couldn't", "won't", "can't", "don't"
 }
-# keep intensity words — tell model HOW positive/negative
+# keep intensity words 
 STOPWORDS -= {
     "very", "really", "so", "too", "such",
     "more", "most", "quite", "rather", "pretty",
@@ -45,13 +45,12 @@ STOPWORDS -= {
     "just", "even", "much", "well", "enough",
     "almost", "always", "often", "still"
 }
-# keep a/an — "what a day!" carries tone
+# keep a/an
 STOPWORDS -= {"a", "an"}
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+
 # 1. TEXT CLEANING
-# ═════════════════════════════════════════════════════════════════════════════
 
 def clean_tweet(text: str) -> str:
     """
@@ -83,9 +82,7 @@ def clean_tweet(text: str) -> str:
     return ' '.join(tokens)
 
 
-# ═════════════════════════════════════════════════════════════════════════════
 # 2. DATA LOADING & SPLITTING
-# ═════════════════════════════════════════════════════════════════════════════
 
 def load_data(path: str = DATA_PATH) -> pd.DataFrame:
     """Load Sentiment140 CSV → binary labels → drop duplicates."""
@@ -115,9 +112,7 @@ def split_data(df: pd.DataFrame):
     return X_train, X_test, y_train, y_test
 
 
-# ═════════════════════════════════════════════════════════════════════════════
 # 3. TOKENIZATION & PADDING
-# ═════════════════════════════════════════════════════════════════════════════
 
 def build_tokenizer(X_train, save_path: str = TOKENIZER_PATH) -> Tokenizer:
     """Fit a Keras Tokenizer on training texts and save it to disk."""
@@ -141,9 +136,8 @@ def get_padded_sequences(tokenizer: Tokenizer, X_train, X_test):
     return X_train_pad, X_test_pad
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+
 # 4. GLOVE EMBEDDING MATRIX
-# ═════════════════════════════════════════════════════════════════════════════
 
 def build_embedding_matrix(tokenizer: Tokenizer,
                             glove_path: str = GLOVE_PATH) -> np.ndarray:

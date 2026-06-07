@@ -1,5 +1,5 @@
 # eda.py
-# ── Generate and save all EDA graphs ─────────────────────────────────────────
+# Generate and save all EDA graphs 
 
 import os
 import numpy as np
@@ -12,9 +12,7 @@ from config import DATA_PATH
 
 os.makedirs('graphs', exist_ok=True)
 
-# ═════════════════════════════════════════════════════════════════════════════
 # 1. LOAD DATA
-# ═════════════════════════════════════════════════════════════════════════════
 
 print("Loading data...")
 cols = ['target', 'id', 'date', 'flag', 'user', 'text']
@@ -27,9 +25,8 @@ df['char_count'] = df['text'].apply(len)
 df['word_count'] = df['text'].apply(lambda x: len(x.split()))
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+
 # 2. GRAPH 1 — Label distribution
-# ═════════════════════════════════════════════════════════════════════════════
 
 counts = df['target'].value_counts()
 plt.figure(figsize=(5, 3))
@@ -43,9 +40,8 @@ plt.close()
 print("Saved: graphs/01_label_distribution.png")
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+
 # 3. GRAPH 2 — Character and word count distributions
-# ═════════════════════════════════════════════════════════════════════════════
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 for label, color, name in [(0, '#E8593C', 'Negative'), (1, '#3B8BD4', 'Positive')]:
@@ -65,9 +61,8 @@ plt.close()
 print("Saved: graphs/02_length_distributions.png")
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+
 # 4. GRAPH 3 — Top words before cleaning
-# ═════════════════════════════════════════════════════════════════════════════
 
 def get_top_words(texts, n=15):
     return Counter(' '.join(texts).lower().split()).most_common(n)
@@ -89,9 +84,7 @@ plt.close()
 print("Saved: graphs/03_top_words_before_cleaning.png")
 
 
-# ═════════════════════════════════════════════════════════════════════════════
-# 5. GRAPH 4 — Top words after cleaning (loads clean_text if available)
-# ═════════════════════════════════════════════════════════════════════════════
+
 
 # Check if a cleaned version was already saved
 CLEANED_PATH = 'outputs/cleaned_df.csv'

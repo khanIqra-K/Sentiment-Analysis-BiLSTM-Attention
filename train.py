@@ -1,5 +1,5 @@
 # train.py
-# ── Training  +  Evaluation  +  Plots ────────────────────────────────────────
+# Training  +  Evaluation  +  Plots 
 
 import os
 import warnings
@@ -30,9 +30,8 @@ from model import build_model
 os.makedirs('outputs', exist_ok=True)
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+
 # PLOT HELPERS
-# ═════════════════════════════════════════════════════════════════════════════
 
 def plot_label_distribution(df: pd.DataFrame):
     counts = df['target'].value_counts()
@@ -78,9 +77,8 @@ def plot_training_history(history):
     plt.show()
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+
 # EVALUATION HELPERS
-# ═════════════════════════════════════════════════════════════════════════════
 
 def evaluate_model(model, X_test_pad, y_test):
     """Accuracy, confusion matrix, classification report."""
@@ -118,9 +116,8 @@ def show_errors(X_test, y_test, y_pred, n: int = 10):
         print(f"Predicted : {'Positive' if y_pred[idx] == 1 else 'Negative'}\n")
 
 
-# ═════════════════════════════════════════════════════════════════════════════
+
 # MAIN TRAINING PIPELINE
-# ═════════════════════════════════════════════════════════════════════════════
 
 def train():
     print("=" * 60)

@@ -1,5 +1,5 @@
 # predict.py
-# ── Inference  +  Attention visualization ────────────────────────────────────
+# Inference  +  Attention visualization 
 
 import pickle
 import numpy as np
@@ -68,7 +68,7 @@ def visualize_attention(text: str, model, tokenizer):
     print(f"Top attended word: '{tokens[w.argmax()]}'  (weight: {w.max():.3f})\n")
 
 
-# ── Quick demo ────────────────────────────────────────────────────────────────
+# Quick demo 
 if __name__ == '__main__':
     model, tokenizer = load_model_and_tokenizer()
 

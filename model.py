@@ -1,5 +1,5 @@
 # model.py
-# ── BiLSTM + Attention architecture ─────────────────────────────────────────
+# BiLSTM + Attention architecture 
 
 import numpy as np
 import tensorflow as tf
@@ -27,10 +27,10 @@ def build_model(embedding_matrix: np.ndarray) -> Model:
           → Dense(64,  relu) → Dropout(0.3)
           → Dense(1, sigmoid)
     """
-    # ── Input ─────────────────────────────────────────────────────────────────
+    # Input 
     inp = Input(shape=(MAX_LEN,))
 
-    # ── Embedding ─────────────────────────────────────────────────────────────
+    # Embedding 
     x = Embedding(
             input_dim    = VOCAB_SIZE,
             output_dim   = EMBEDDING_DIM,
@@ -40,13 +40,13 @@ def build_model(embedding_matrix: np.ndarray) -> Model:
         )(inp)
     x = SpatialDropout1D(0.2)(x)
 
-    # ── Bidirectional LSTM ────────────────────────────────────────────────────
+    # Bidirectional LSTM 
     # output: (batch, MAX_LEN, LSTM_UNITS*2)
     lstm_out = Bidirectional(
                    LSTM(LSTM_UNITS, return_sequences=True, dropout=0.3)
                )(x)
 
-    # ── Attention ─────────────────────────────────────────────────────────────
+    # Attention 
     # Score each time step, then softmax → importance weights
     a = Dense(1, activation='tanh')(lstm_out)   # (batch, MAX_LEN, 1)
     a = Flatten()(a)                             # (batch, MAX_LEN)
@@ -60,7 +60,7 @@ def build_model(embedding_matrix: np.ndarray) -> Model:
     context_vector = Lambda(lambda z: tf.reduce_sum(z, axis=1))(weighted)
     # context_vector shape: (batch, LSTM_UNITS*2)
 
-    # ── Classification head ───────────────────────────────────────────────────
+    # Classification head 
     x   = Dense(128, activation='relu')(context_vector)
     x   = Dropout(0.4)(x)
     x   = Dense(64,  activation='relu')(x)
