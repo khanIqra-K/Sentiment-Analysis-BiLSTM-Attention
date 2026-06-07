@@ -1,0 +1,21 @@
+# Data and model outputs (too large for GitHub)
+data/
+outputs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Environments
+.env
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
